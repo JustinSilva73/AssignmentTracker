@@ -7,13 +7,15 @@ app.use(express());
 app.use(cors());
 app.use(express.json());
 
+require('dotenv').config(); // Load .env file
+
 const connection = mysql.createConnection({
-  host: 'assignmenttracker.ci3higxjoes6.us-east-1.rds.amazonaws.com',
-  user: 'awsuser',
-  password: 'password123!',
-  database: 'assignmentTracker',
-  port: 3306
-})
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT
+});
 app.get('/api/updateAssignments', async (req, res) => {
   connection.query("Select * from assignments",
   (error,results) => {
